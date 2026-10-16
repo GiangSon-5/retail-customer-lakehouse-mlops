@@ -81,6 +81,7 @@ env/
 topic1_Customer_Segmentation.md
 topic1_Customer_Segmentation.pdf
 *.pdf
+RUNBOOK.md
 
 # ==============================================================================
 # OS THÔNG THƯỜNG (WINDOWS / MACOS)
@@ -92,8 +93,14 @@ $RECYCLE.BIN/
 .DS_Store
 
 # ==============================================================================
-# HỒ SƠ KIỂM TOÁN NỘI BỘ AGENT (AI INTERNAL AUDIT DOSSIERS - KHÔNG PUSH PUBLIC)
+# HỒ SƠ KIỂM TOÁN NỘI BỘ AGENT (AI INTERNAL AUDIT DOSSIERS)
 # ==============================================================================
 .agent_audit/
+
+# ==============================================================================
+# SCRATCHPAD & VÙNG NHÁP NỘI BỘ 
+# ==============================================================================
+scratch/
+
 
 
