@@ -132,7 +132,7 @@ aws s3api head-object --bucket retail-customer-lakehouse-876760932342-bronze --k
 
 ## 6. QUY TRÌNH FINOPS DỌN DẸP TRÁNH MẤT PHÍ (TEARDOWN)
 
-> **Áp dụng trước khi tắt máy đi ngủ hoặc khi kết thúc phiên thực hành**
+> **Áp dụng định kỳ kiểm toán vận hành hoặc khi hoàn tất chu kỳ chạy batch**
 
 ### 6.1. Xóa sạch 100% tài nguyên trên AWS (Cam kết 0đ chi phí qua đêm)
 ```powershell
@@ -146,3 +146,39 @@ terraform destroy -auto-approve
 cd C:\Users\Admin\Desktop\Kaggle\projects\customer_segmentation\infra
 terraform apply -auto-approve
 ```
+
+---
+
+## 7. RÀ SOÁT CHI PHÍ & DỊCH VỤ NGẦM TRÊN TERMINAL (FINOPS AUDIT)
+
+### 7.1. Kiểm tra trạng thái chuông cảnh báo 1 USD
+```powershell
+aws cloudwatch describe-alarms --alarm-names "CustomerSegmentation-Spend-Alert-1USD" --query "MetricAlarms[].[AlarmName,StateValue,StateReason]" --output table
+```
+
+### 7.2. Kiểm tra chi tiết tiền tiêu từng dịch vụ trong tháng
+```powershell
+aws ce get-cost-and-usage --time-period Start=2026-10-01,End=2026-10-17 --granularity MONTHLY --metrics "UnblendedCost" --group-by Type=DIMENSION,Key=SERVICE --query "ResultsByTime[].Groups[].[Keys[0],Metrics.UnblendedCost.Amount]" --output table
+```
+
+### 7.3. Rà soát máy chủ EC2 đang chạy ngầm
+```powershell
+aws ec2 describe-instances --query "Reservations[].Instances[?State.Name=='running'].[InstanceId,InstanceType,LaunchTime]" --output table
+```
+
+### 7.4. Rà soát NAT Gateway (Nguy cơ tốn tiền ngầm cao nhất)
+```powershell
+aws ec2 describe-nat-gateways --query "NatGateways[?State=='available'].[NatGatewayId,VpcId]" --output table
+```
+
+### 7.5. Rà soát máy chủ SageMaker (Notebooks & Endpoints)
+```powershell
+aws sagemaker list-notebook-instances --query "NotebookInstances[?NotebookInstanceStatus=='InService'].NotebookInstanceName" --output table
+aws sagemaker list-endpoints --query "Endpoints[?EndpointStatus=='InService'].EndpointName" --output table
+```
+
+### 7.6. Kiểm tra tổng dung lượng file thực tế trên S3 Bronze
+```powershell
+aws s3 ls s3://retail-customer-lakehouse-876760932342-bronze/raw/ --recursive --human-readable --summarize
+```
+

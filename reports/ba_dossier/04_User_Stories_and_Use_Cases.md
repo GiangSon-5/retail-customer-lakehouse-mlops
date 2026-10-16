@@ -13,7 +13,7 @@
 | Phiên bản | Ngày | Người sửa | Tóm tắt các thay đổi | Mục sửa đổi | Lý do |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `1.0` | 2026-10-15 | Senior BA | Khởi tạo 5 User Stories cho hệ thống Free Tier | Toàn bộ | Phiên bản baseline ban đầu |
-| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Nâng cấp 6 User Stories & Use Case phản ánh đầy đủ chu trình AWS Cloud Data & MLOps (S3 Medallion, Glue/EMR PySpark, CodeBuild CI/CD, SageMaker Spot Training, Batch Transform, Step Functions, FinOps Guardrails) | Toàn bộ | Đáp ứng mục tiêu xây dựng & thực hành dự án AWS doanh nghiệp |
+| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Nâng cấp 6 User Stories & Use Case phản ánh đầy đủ chu trình AWS Cloud Data & MLOps (S3 Medallion, Glue/EMR PySpark, CodeBuild CI/CD, SageMaker Spot Training, Batch Transform, Step Functions, FinOps Guardrails) | Toàn bộ | Chuẩn hóa toàn diện giải pháp Enterprise AWS Data & MLOps cho hệ thống bán lẻ |
 
 ---
 
@@ -114,7 +114,7 @@
 - **Tiêu đề**: Tự động hóa toàn bộ luồng xử lý bằng AWS Step Functions kết hợp giám sát ngân sách CloudWatch Alarms.
 - **Là một (As a)**: Cloud Architect & FinOps Specialist.
 - **Tôi muốn (I want to)**: Đóng gói toàn bộ các bước thành một State Machine duy nhất và cài đặt CloudWatch Billing Alarm ở ngưỡng 1.00 USD.
-- **Để mà (So that)**: Pipeline vận hành tự động từ đầu đến cuối một cách tin cậy và không bao giờ vượt quá ngân sách thực hành cho phép ($\le 5.00$ USD).
+- **Để mà (So that)**: Pipeline vận hành tự động từ đầu đến cuối một cách tin cậy và không bao giờ vượt quá ngân sách điện toán cho phép ($\le 5.00$ USD).
 - **Tiêu chuẩn Nghiệm thu (Acceptance Criteria - Gherkin)**:
   ```gherkin
   Scenario: Chạy toàn bộ State Machine và kiểm tra cơ chế FinOps

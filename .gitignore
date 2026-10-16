@@ -90,3 +90,10 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+
+# ==============================================================================
+# HỒ SƠ KIỂM TOÁN NỘI BỘ AGENT (AI INTERNAL AUDIT DOSSIERS - KHÔNG PUSH PUBLIC)
+# ==============================================================================
+.agent_audit/
+
+

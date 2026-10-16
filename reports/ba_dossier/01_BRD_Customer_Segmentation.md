@@ -13,7 +13,7 @@
 | Phiên bản | Ngày | Người sửa | Tóm tắt các thay đổi | Mục sửa đổi | Lý do |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `1.0` | 2026-10-15 | Senior BA | Khởi tạo tài liệu BRD phân khúc khách hàng bán lẻ trên AWS Free Tier | Toàn bộ | Phiên bản baseline ban đầu |
-| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Nâng cấp toàn diện sang dự án học thực hành & xây dựng kiến trúc AWS chuẩn doanh nghiệp (S3 Medallion, Glue/EMR Spark, CodeBuild CI/CD, SageMaker MLOps, Step Functions, Athena) kèm chiến lược Ephemeral Cost Governance | Toàn bộ | Chuyển đổi định hướng dự án sang End-to-End AWS Build Project phục vụ thực hành kỹ sư dữ liệu và triển khai thực tế |
+| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Chuẩn hóa toàn diện kiến trúc Enterprise AWS Cloud Data & MLOps (S3 Medallion Lakehouse, Glue/PySpark, CodeBuild CI/CD, SageMaker Spot Training, Batch Transform, Step Functions, Athena) kèm chiến lược Ephemeral FinOps Cost Governance | Toàn bộ | Hoàn thiện kiến trúc giải pháp dữ liệu và MLOps chuẩn doanh nghiệp cho chuỗi bán lẻ |
 
 ---
 
@@ -22,7 +22,7 @@
 ### 1.1 Bối cảnh Doanh nghiệp & Định hướng Dự án
 Cửa hàng bán lẻ thực phẩm X vận hành mạng lưới bán lẻ hàng hóa thiết yếu B2C với hàng chục nghìn giao dịch mỗi tháng. Trong bối cảnh chuyển đổi số và nâng cao năng lực cạnh tranh, doanh nghiệp quyết định xây dựng **Nền tảng Phân khúc Khách hàng & MLOps Tự động hóa trên AWS Cloud (AWS-Powered Customer Segmentation Platform)**.
 
-Dự án vừa phục vụ trực tiếp nghiệp vụ bán lẻ thực tế, vừa đóng vai trò là **Dự án Chuẩn mực Thực hành Kỹ thuật Đám mây (AWS Hands-on Build Project)** theo tiêu chuẩn AWS Data Engineer (DEA-C01) và AWS Solutions Architect (SAA-C03), áp dụng các dịch vụ cốt lõi:
+Hệ thống được thiết kế theo các tiêu chuẩn kiến trúc điện toán đám mây cấp doanh nghiệp (AWS Well-Architected Framework: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization), áp dụng các dịch vụ cốt lõi:
 - **Lưu trữ & Hồ dữ liệu (Data Lake)**: Amazon S3 theo kiến trúc Medallion (Bronze / Silver / Gold).
 - **Xử lý Dữ liệu Lớn (Big Data ETL)**: AWS Glue / Amazon EMR (PySpark) để chuẩn hóa và tổng hợp đặc trưng RFM.
 - **Đóng gói & CI/CD**: AWS CodeBuild tự động build container Docker và deploy pipeline.
@@ -59,7 +59,7 @@ flowchart TD
     subgraph TECH_GOALS ["MỤC TIÊU KỸ THUẬT AWS CLOUD (TECHNICAL OBJECTIVES)"]
         TO1["TO-01: Tự Động Hóa 100% Pipeline<br/><i>(Điều phối qua AWS Step Functions)</i>"]
         TO2["TO-02: Thời Gian Xử Lý Tối Ưu<br/><i>(Toàn bộ chu trình <= 10 phút)</i>"]
-        TO3["TO-03: Quản Trị Chi Phí Thực Hành FinOps<br/><i>(Hạn mức <= 5.00 USD/tháng)</i>"]
+        TO3["TO-03: Quản Trị Chi Phí Tối Ưu FinOps<br/><i>(Hạn mức <= 5.00 USD/tháng)</i>"]
     end
 
     ROOT --> BIZ_GOALS & TECH_GOALS
@@ -72,7 +72,7 @@ flowchart TD
 | **BO-03** | Nghiệp vụ | Giữ chân và kích hoạt lại nhóm khách hàng At-Risk | Tỷ lệ phản hồi chiến dịch kích hoạt lại (Re-activation) | 3.0% | $\ge 15.0\%$ sau 3 tháng |
 | **TO-01** | Kỹ thuật AWS | Tự động hóa Pipeline từ Ingestion đến Serving | Tỷ lệ tự động hóa qua AWS Step Functions | 0% | 100% không cần can thiệp thủ công |
 | **TO-02** | Kỹ thuật AWS | Tối ưu hóa thời gian huấn luyện & suy luận ML | Thời gian thực thi toàn bộ SageMaker Pipeline | N/A | $\le 10$ phút / batch run |
-| **TO-03** | Kỹ thuật AWS | **Quản trị Ngân sách Thực hành Đám mây (Cost Governance)** | Chi phí vận hành hạ tầng AWS hàng tháng cho Lab/Thực hành | N/A | **$\le 5.00$ USD / tháng** (nhờ cơ chế Ephemeral & Spot) |
+| **TO-03** | Kỹ thuật AWS | **Quản trị Chi phí Điện toán Đám mây (Cloud FinOps Governance)** | Chi phí vận hành hạ tầng AWS hàng tháng cho nền tảng | N/A | **$\le 5.00$ USD / tháng** (nhờ cơ chế Serverless, Ephemeral & Managed Spot) |
 
 
 ---
@@ -102,7 +102,7 @@ flowchart TD
 7. **Hệ thống Giám sát & Chốt chặn Ngân sách (Cloud Cost & Security Guardrails)**:
    - Cấu hình **AWS Budgets** với hạn mức cảnh báo 5.00 USD.
    - Thiết lập **CloudWatch Billing Alarm** báo động khi chi phí vượt quá 1.00 USD.
-   - Cung cấp kịch bản **Teardown & Cleanup Automation** giải phóng tài nguyên sau mỗi phiên thực hành.
+   - Cung cấp kịch bản **Teardown & Cleanup Automation** tự động thu hồi tài nguyên nhàn rỗi theo chu kỳ batch.
 
 ### 3.2 Phạm vi Không Triển khai (Out-of-Scope)
 - **CẤM DUY TRÌ TÀI NGUYÊN 24/7**: Không duy trì Amazon SageMaker Real-time Endpoint chạy liên tục (dùng Batch Transform chạy theo yêu cầu).
@@ -114,8 +114,8 @@ flowchart TD
 ## 4. MA TRẬN TRÁCH NHIỆM RACI (RACI MATRIX)
 
 | Bên Liên Quan | Vai Trò | Nhiệm Vụ Cụ Thể | R | A | C | I |
-| :--- | :--- | :--- | :---: | :---: | :---: | :---: |
-| Giám đốc Chuỗi Bán Lẻ | Business Sponsor | Phê duyệt mục tiêu kinh doanh và ngân sách thực hành đám mây | | X | | |
+| :--- | :--- | :--- | :--- | :---: | :---: | :---: |
+| Giám đốc Chuỗi Bán Lẻ | Business Sponsor | Phê duyệt mục tiêu kinh doanh và ngân sách vận hành đám mây | | X | | |
 | Trưởng phòng Marketing | Product Owner | Định nghĩa tiêu chí 5 phân khúc và chiến dịch tiếp thị tương ứng | X | | | |
 | Senior Technical BA | Cố vấn & Đặc tả | Lập BRD, SRS, STTM, kịch bản UAT và giám sát kiến trúc AWS | X | | | |
 | Data / Cloud Engineer | Kỹ sư Dữ liệu & AWS | Thiết lập S3, Glue/EMR PySpark, CodeBuild, Step Functions, Athena | X | | | |
@@ -150,10 +150,10 @@ flowchart TD
 - **Gia tăng Doanh thu Bán lẻ**: Ước tính tăng trưởng **180 - 250 triệu VND / năm** nhờ chuyển đổi tiếp thị đúng khách hàng VIP và bán chéo (cross-sell) theo ngành hàng.
 - **Cắt giảm Chi phí Tiếp thị Phí phạm**: Tiết kiệm **40 - 55 triệu VND / năm** ngân sách gửi tin nhắn SMS Brandname/Zalo nhờ loại bỏ khách hàng ngủ đông không có tiềm năng chuyển đổi.
 
-### 6.2 Mô Hình Chi Phí Hạ Tầng AWS Thực Hành (Hands-on FinOps Architecture)
-Dự án được thiết kế để vừa thực hành đầy đủ các dịch vụ AWS doanh nghiệp, vừa tối ưu hóa chi phí thực nghiệm ở mức tối thiểu:
+### 6.2 Mô Hình Quản Trị Chi Phí Hạ Tầng AWS Tinh Gọn (Lean Cloud FinOps Architecture)
+Nền tảng được thiết kế theo nguyên tắc điện toán đám mây tinh gọn (Lean Cloud Architecture), tối đa hóa tỷ lệ chi phí trên hiệu năng (Cost-to-Performance Ratio):
 
-| Dịch Vụ AWS | Cơ Chế Tính Phí Thực Hành | Hạn Mức Miễn Phí / Tối Ưu | Chi Phí Ước Tính Cho Mỗi Lần Run |
+| Dịch Vụ AWS | Cơ Chế Vận Hành & Tối Ưu Chi Phí | Hạn Mức Tối Ưu & Miễn Phí | Chi Phí Ước Tính Cho Mỗi Lần Chạy Batch |
 | :--- | :--- | :--- | :---: |
 | **Amazon S3** | Standard Storage & Requests | 5 GB Free Tier vĩnh viễn (dataset dự án $< 50$ MB) | **0.00 USD** |
 | **AWS CodeBuild** | Build Docker Container | 100 phút build `general1.small` miễn phí/tháng | **0.00 USD** |
@@ -162,4 +162,4 @@ Dự án được thiết kế để vừa thực hành đầy đủ các dịch
 | **AWS Glue / EMR** | PySpark ETL Data Processing | Dùng AWS Glue 1 DPU chạy $\sim 2-3$ phút hoặc Local Spark | $\sim 0.02 - 0.04$ USD / run |
 | **Amazon SageMaker** | K-Means Training & Batch Transform | Managed Spot Training `ml.m5.large` chạy $\sim 3$ phút | $\sim 0.01 - 0.03$ USD / run |
 | **Amazon CloudWatch** | Logs, Metrics & Billing Alarms | 10 Alarms & 5 GB Log ingestion miễn phí | **0.00 USD** |
-| **TỔNG CHI PHÍ THỰC HÀNH DỰ KIẾN** | **Toàn bộ chu trình End-to-End** | **Tối ưu triệt để theo mô hình Ephemeral** | **$< 0.10$ USD / lần chạy full** |
+| **TỔNG CHI PHÍ ĐIỆN TOÁN ƯỚC TÍNH** | **Toàn bộ chu trình End-to-End** | **Tối ưu triệt để theo mô hình Ephemeral & Spot** | **$< 0.10$ USD / lần chạy full batch** |

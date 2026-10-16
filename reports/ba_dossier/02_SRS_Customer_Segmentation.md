@@ -13,7 +13,7 @@
 | Phiên bản | Ngày | Người sửa | Tóm tắt các thay đổi | Mục sửa đổi | Lý do |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `1.0` | 2026-10-15 | Senior BA | Đặc tả hệ thống serverless S3/Athena mức Free Tier | Toàn bộ | Phiên bản baseline ban đầu |
-| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Mở rộng toàn diện thành kiến trúc Enterprise AWS Data & ML Stack: S3 Medallion, Glue/EMR PySpark, CodeBuild CI/CD, SageMaker Spot Training/Batch Transform, Step Functions State Machine và Ephemeral FinOps Guardrail | Toàn bộ | Nâng cấp thành dự án thực hành & xây dựng AWS chuẩn công nghiệp |
+| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Mở rộng toàn diện thành kiến trúc Enterprise AWS Data & ML Stack: S3 Medallion, Glue/EMR PySpark, CodeBuild CI/CD, SageMaker Spot Training/Batch Transform, Step Functions State Machine và Ephemeral FinOps Guardrail | Toàn bộ | Chuẩn hóa kiến trúc dữ liệu và MLOps cấp doanh nghiệp |
 
 ---
 
@@ -79,7 +79,7 @@ flowchart TD
 
 ## 2. QUY CHUẨN TÀI NGUYÊN & ĐIỀU KHOẢN QUẢN TRỊ CHI PHÍ EPHEMERAL (FINOPS RULES)
 
-Để đảm bảo vừa thực hành đầy đủ các dịch vụ AWS doanh nghiệp vừa kiểm soát chi phí thực tế ở mức tối thiểu ($\le 5.00$ USD/tháng):
+Để đảm bảo kiến trúc vận hành tối ưu với chi phí tối thiểu theo chuẩn Lean FinOps ($\le 5.00$ USD/tháng):
 
 | Dịch Vụ AWS | Cấu Hình Khuyến Nghị Cho Dự Án | Thời Gian Vận Hành Dự Kiến | Cơ Chế Tiết Kiệm Chi Phí (Cost Optimization) |
 | :--- | :--- | :--- | :--- |
@@ -167,7 +167,7 @@ flowchart TD
 
 | Mã Yêu Cầu | Hạng Mục | Yêu Cầu Cụ Thể & Chỉ Số Đo Lường Định Lượng | Cơ Chế Kiểm Chứng |
 | :---: | :--- | :--- | :--- |
-| **NFR-01** | **Chi Phí (FinOps)** | Tổng chi phí chạy thực hành End-to-End $\le 5.00$ USD/tháng; mỗi lần chạy pipeline $< 0.10$ USD. Không có chi phí phát sinh ngoài ý muốn. | AWS Budgets + CloudWatch Billing Alarm ở ngưỡng 1.00 USD. |
+| **NFR-01** | **Chi Phí (FinOps)** | Tổng chi phí vận hành End-to-End $\le 5.00$ USD/tháng; mỗi lần chạy batch pipeline $< 0.10$ USD. Không có chi phí phát sinh ngoài ý muốn. | AWS Budgets + CloudWatch Billing Alarm ở ngưỡng 1.00 USD. |
 | **NFR-02** | **Bảo Mật (Security)** | Áp dụng nguyên tắc quyền tối thiểu (Least Privilege) cho IAM Execution Roles của Glue, SageMaker, CodeBuild. Dữ liệu S3 được mã hóa SSE-S3. | IAM Policy Simulator & AWS Config. |
 | **NFR-03** | **Hiệu Năng (Performance)**| Toàn bộ chu trình từ ETL đến kết quả phân cụm hoàn thành trong vòng $\le 15$ phút trên tập dữ liệu hiện tại; có khả năng mở rộng xử lý 10 triệu giao dịch trong $\le 45$ phút trên EMR. | CloudWatch Step Functions Execution Duration metric. |
 | **NFR-04** | **Toàn Vẹn Dữ Liệu (Integrity)**| Không làm thất thoát bất kỳ khách hàng hợp lệ nào (Tỷ lệ khớp số lượng khách hàng = 100%, 3.898/3.898 khách hàng). | SQL Reconcile Query trên Athena đối chiếu với Raw S3. |

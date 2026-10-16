@@ -1,4 +1,4 @@
-# KẾ HOẠCH KIỂM THỬ NGHIỆM THU (UAT) & QUẢN TRỊ CHI PHÍ AWS THỰC CHIẾN (AWS HANDS-ON UAT & FINOPS RUNBOOK)
+# KẾ HOẠCH KIỂM THỬ NGHIỆM THU (UAT) & QUẢN TRỊ CHI PHÍ AWS TINH GỌN (ENTERPRISE UAT & FINOPS RUNBOOK)
 
 > **Dự án**: AWS-Powered Customer Segmentation & ML Pipeline Platform for Retail  
 > **Mã hồ sơ**: `UAT-FINOPS-CUST-SEGMENT-AWS-V2`  
@@ -14,7 +14,7 @@
 | Phiên bản | Ngày | Người sửa | Tóm tắt các thay đổi | Mục sửa đổi | Lý do |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `1.0` | 2026-10-15 | Senior BA | Kế hoạch UAT và guardrail chi phí mức Free Tier | Toàn bộ | Phiên bản baseline ban đầu |
-| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Mở rộng 6 kịch bản UAT bao phủ toàn bộ stack AWS (S3, Glue/PySpark, CodeBuild, SageMaker Spot, Batch Transform, Step Functions) kèm Sổ tay FinOps Runbook & Teardown Script | Toàn bộ | Đáp ứng mục tiêu xây dựng & thực hành dự án AWS doanh nghiệp |
+| `2.0` | 2026-10-15 | Senior BA & Cloud Architect | Mở rộng 6 kịch bản UAT bao phủ toàn bộ stack AWS (S3, Glue/PySpark, CodeBuild, SageMaker Spot, Batch Transform, Step Functions) kèm Sổ tay FinOps Runbook & Teardown Script | Toàn bộ | Chuẩn hóa toàn diện quy trình kiểm thử nghiệm thu UAT và sổ tay FinOps |
 
 ---
 
@@ -23,7 +23,7 @@
 Kế hoạch UAT nhằm kiểm chứng 3 khía cạnh sống còn trước khi bàn giao hệ thống:
 1. **Tính Đúng đắn Nghiệp vụ (Business Correctness)**: Thuật toán RFM và mô hình K-Means phân loại chính xác 5 nhóm khách hàng (Champions, Loyal, Promising, At-Risk, Lost) phục vụ trực tiếp cho phòng Marketing.
 2. **Tính Liền mạch Kỹ thuật AWS (AWS Architectural Integrity)**: Toàn bộ dây chuyền từ S3 $\to$ Glue/EMR $\to$ CodeBuild $\to$ SageMaker $\to$ Athena $\to$ Step Functions vận hành trơn tru không lỗi.
-3. **Kỷ luật Quản trị Chi phí Thực hành (Hands-on FinOps Discipline)**: Chi phí thực tế mỗi lần chạy chu trình $< 0.10$ USD; tổng ngân sách hàng tháng $\le 5.00$ USD; không có tài nguyên treo chạy ngầm 24/7.
+3. **Kỷ luật Quản trị Chi phí Tinh gọn (Lean FinOps Discipline)**: Chi phí thực tế mỗi lần chạy chu trình $< 0.10$ USD; tổng ngân sách hàng tháng $\le 5.00$ USD; không có tài nguyên treo chạy ngầm 24/7.
 
 ```mermaid
 flowchart TD
@@ -103,16 +103,16 @@ CROSS JOIN gold_customers g;
 
 ---
 
-## 4. SỔ TAY QUẢN TRỊ CHI PHÍ THỰC HÀNH AWS (HANDS-ON FINOPS RUNBOOK)
+## 4. SỔ TAY QUẢN TRỊ CHI PHÍ ĐIỆN TOÁN AWS (ENTERPRISE FINOPS RUNBOOK)
 
 ### 4.1 Thiết Lập Cảnh Báo Ngân Sách Tự Động (AWS CLI Setup)
-Người học / Kỹ sư thực hiện chạy các lệnh AWS CLI sau để kích hoạt chốt chặn an toàn tài chính:
+Kỹ sư vận hành thực hiện chạy các lệnh AWS CLI sau để kích hoạt chốt chặn an toàn tài chính:
 
 ```bash
 # 1. Tạo cảnh báo chi phí CloudWatch Billing Alarm ở ngưỡng 1.00 USD
 aws cloudwatch put-metric-alarm \
-    --alarm-name "CustomerSegmentation-Lab-Spend-Alert-1USD" \
-    --alarm-description "Canh bao khan khi chi phi thuc hanh AWS vuot 1.00 USD" \
+    --alarm-name "CustomerSegmentation-Spend-Alert-1USD" \
+    --alarm-description "Canh bao khan khi chi phi AWS vuot 1.00 USD" \
     --metric-name EstimatedCharges \
     --namespace AWS/Billing \
     --statistic Maximum \
@@ -129,10 +129,10 @@ aws budgets create-budget \
 ```
 
 ### 4.2 Kịch Bản Tự Động Dọn Dẹp Tài Nguyên (Teardown Script)
-Sau khi kết thúc phiên học tập / thực hành bài lab, chạy script sau để xóa sạch các tài nguyên tạm thời, đảm bảo **không bao giờ bị tính phí ngầm**:
+Khi cần thu hồi hoặc làm mới môi trường, chạy script sau để giải phóng toàn bộ tài nguyên tạm thời, đảm bảo **không bao giờ bị tính phí ngầm**:
 
 ```powershell
-# Script: scripts/teardown_aws_lab_resources.ps1
+# Script: scripts/teardown_aws_ephemeral_resources.ps1
 Write-Host ">>> DANG DANG XOA CAC TAI NGUYEN TAM THOI CUA DU AN CUSTOMER SEGMENTATION..." -ForegroundColor Yellow
 
 # 1. Xoa du lieu S3
