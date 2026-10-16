@@ -1,0 +1,23 @@
+# ==============================================================================
+# Production Project Configuration (Enterprise Baseline)
+# ==============================================================================
+
+project_name: "enterprise_ml_service"
+environment: "development" # development | staging | production
+seed: 42
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  batch_size: 256
+
+model:
+  name: "lightgbm_classifier"
+  version: "1.0.0"
+  artifact_path: "models/model_v1.joblib"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  timeout_seconds: 30

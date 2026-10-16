@@ -1,0 +1,41 @@
+# ==============================================================================
+# GITATTRIBUTES: CHUẨN HÓA XUỐNG DÒNG (LF vs CRLF) & ĐỊNH DẠNG FILE
+# ==============================================================================
+
+# Thiết lập tự động chuẩn hóa xuống dòng LF cho toàn bộ text files
+* text=auto eol=lf
+
+# 1. Mã nguồn Python & Shell scripts: Bắt buộc dùng LF (chống lỗi khi chạy Docker / Linux)
+*.py text eol=lf
+*.sh text eol=lf
+*.bash text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# 2. Terraform files: Bắt buộc dùng LF
+*.tf text eol=lf
+*.tfvars text eol=lf
+.terraform.lock.hcl text eol=lf
+
+# 3. Windows PowerShell scripts: Cho phép CRLF
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 4. File nhị phân (Binary files): Không bao giờ chuẩn hóa text / sửa dòng
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.parquet binary
+*.pkl binary
+*.joblib binary
+*.zip binary
+*.tar.gz binary
+*.exe binary
+*.dll binary
+*.so binary
