@@ -22,3 +22,22 @@ output "glue_database_name" {
   description = "Ten AWS Glue Catalog Database"
   value       = aws_glue_catalog_database.retail_lakehouse.name
 }
+
+# ==============================================================================
+# SAGEMAKER NOTEBOOK INSTANCE OUTPUTS
+# ==============================================================================
+
+output "sagemaker_notebook_name" {
+  description = "Ten SageMaker Notebook Instance"
+  value       = aws_sagemaker_notebook_instance.eda_notebook.name
+}
+
+output "sagemaker_notebook_url" {
+  description = "Duong dan truc tiep mo JupyterLab tren AWS Console"
+  value       = "https://${aws_sagemaker_notebook_instance.eda_notebook.name}.notebook.${var.aws_region}.sagemaker.aws"
+}
+
+output "sagemaker_execution_role_arn" {
+  description = "ARN cua IAM Role gan cho SageMaker"
+  value       = aws_iam_role.sagemaker_execution.arn
+}
