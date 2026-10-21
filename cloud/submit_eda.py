@@ -45,7 +45,7 @@ def submit_eda_processing_job(debug: bool = False):
     print(f"🛡️ SageMaker Role   : {SAGEMAKER_ROLE_ARN}")
     print(f"📦 Container Image  : {SKLEARN_IMAGE_URI}")
     print(f"⚡ Package Manager  : uv (Astral Rust Package Manager - Ultra Fast)")
-    print(f"⚙️ Chế độ thực thi  : {'--debug (Smoke Test 1.000 dòng)' if debug else 'Chạy Full 100% Lakehouse'}")
+    print(f"⚙️ Chế độ thực thi  : {'--debug (Smoke Test 100 dòng)' if debug else 'Chạy Full 100% Lakehouse'}")
     print("=" * 80)
 
     s3 = boto3.client("s3", region_name=AWS_REGION)
@@ -201,7 +201,7 @@ def submit_eda_processing_job(debug: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Submit SageMaker Processing Job from Local (Dedicated Cloud Runner)")
-    parser.add_argument("--debug", action="store_true", help="Chạy thử nghiệm nhanh (Smoke Test) với 1.000 dòng")
+    parser.add_argument("--debug", action="store_true", help="Chạy thử nghiệm nhanh (Smoke Test) với 100 dòng")
     args = parser.parse_args()
 
     submit_eda_processing_job(debug=args.debug)

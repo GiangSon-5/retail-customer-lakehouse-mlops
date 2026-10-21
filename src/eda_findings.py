@@ -90,7 +90,7 @@ def run_eda_pipeline(data_dir: str = None, s3_bucket: str = None, output_img_dir
             raise FileNotFoundError(f"Không tìm thấy file Transactions.csv hoặc Products_with_Categories.csv tại {data_dir}")
 
     print(f"🖼️ Thư mục ảnh xuất: {output_img_dir}")
-    print(f"⚙️ Chế độ thực thi: {'--debug (Micro-sampling N=1000)' if debug else 'Chạy Full 100% dữ liệu'}")
+    print(f"⚙️ Chế độ thực thi: {'--debug (Micro-sampling N=100)' if debug else 'Chạy Full 100% dữ liệu'}")
     print("=" * 70)
 
     os.makedirs(output_img_dir, exist_ok=True)
@@ -102,8 +102,8 @@ def run_eda_pipeline(data_dir: str = None, s3_bucket: str = None, output_img_dir
 
     raw_tx_len = len(df_tx)
     if debug:
-        print(f"   [Debug Mode] Lấy mẫu micro-sampling 1.000 dòng từ {raw_tx_len:,} dòng gốc.")
-        df_tx = df_tx.head(1000).copy()
+        print(f"   [Debug Mode] Lấy mẫu micro-sampling 100 dòng từ {raw_tx_len:,} dòng gốc.")
+        df_tx = df_tx.head(100).copy()
 
     # Chuẩn hóa cột Ngày tháng phục vụ phân tích
     df_tx["Date_dt"] = pd.to_datetime(df_tx["Date"], format="%d-%m-%Y")
